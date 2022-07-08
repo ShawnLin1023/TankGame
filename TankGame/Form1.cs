@@ -1,3 +1,5 @@
+using TankGame.Properties;
+
 namespace TankGame
 {
     public partial class Form1 : Form
@@ -16,9 +18,17 @@ namespace TankGame
         {
             //練習使用畫布+筆繪製出線與字串
             Graphics g = this.CreateGraphics();
-            Pen p = new Pen(Color.Black);
+            /*Pen p = new Pen(Color.Black);
             g.DrawLine(p, new Point(0, 0), new Point(100, 100));
-            g.DrawString("WuShark", new Font("Arial", 20), new SolidBrush(Color.Red), new Point(100, 100));
+            g.DrawString("WuShark", new Font("Arial", 20), new SolidBrush(Color.Red), new Point(100, 100));*/
+
+            Image image = Properties.Resources.Boss;
+
+            Bitmap bm = Properties.Resources.Star1;
+            bm.MakeTransparent(Color.Black);
+
+            g.DrawImage(bm, 150, 150);
+            g.DrawImage(image, 200, 200);
         }
     }
 }
