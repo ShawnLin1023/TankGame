@@ -59,5 +59,16 @@ namespace TankGame
         {
             t.Abort();
         }
+
+        //¨Æ¥ó
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            GameObjectManager.KeyDown(e);
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            GameObjectManager.KeyUp(e);
+        }
     }
 }

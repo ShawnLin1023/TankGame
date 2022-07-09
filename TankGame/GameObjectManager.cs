@@ -9,11 +9,56 @@ namespace TankGame
 {
     internal class GameObjectManager
     {
+        
         private static List<NotMovething> wallList = new List<NotMovething>();
         private static List<NotMovething> steelList = new List<NotMovething>();
         private static NotMovething boss;
+        private static MyTank myTank;
 
-        public static void DrawMap()
+        public static void Update()
+        {
+            foreach (NotMovething wall in wallList)
+            {
+                wall.Update();
+            }
+            foreach (NotMovething wall in steelList)
+            {
+                wall.Update();
+            }
+            boss.Update();
+            myTank.Update();
+        }
+
+        public static NotMovething IsCollidedWall(Rectangle rt)
+        {
+            foreach(NotMovething wall in wallList)
+            {
+                if (wall.GetRectangle().IntersectsWith(rt))
+                {
+                    return wall;
+                }
+            }
+            return null;
+        }
+
+        public static NotMovething IsCollidedSteel(Rectangle rt)
+        {
+            foreach (NotMovething steelWall in steelList)
+            {
+                if (steelWall.GetRectangle().IntersectsWith(rt))
+                {
+                    return steelWall;
+                }
+            }
+            return null;
+        }
+
+        public static bool IsCollidedBoss(Rectangle rt)
+        {
+            return boss.GetRectangle().IntersectsWith(rt);
+        }
+
+        /*public static void DrawMap()
         {
             foreach(NotMovething wall in wallList)
             {
@@ -24,6 +69,18 @@ namespace TankGame
                 wall.DrawSelf();
             }
             boss.DrawSelf();
+        }
+
+        public static void DrawMyTank()
+        {
+            myTank.DrawSelf();
+        }*/
+
+        public static void CreateMyTank()
+        {
+            int x = 5 * 30;
+            int y = 14 * 30;
+            myTank = new MyTank(x, y, 2);
         }
         
         public static void CreateMap()
@@ -86,6 +143,16 @@ namespace TankGame
                 wallList.Add(wall1);
                 wallList.Add(wall2);
             }
+        }
+
+        public static void KeyDown(KeyEventArgs args)
+        {
+            myTank.KeyDown(args);
+        }
+
+        public static void KeyUp(KeyEventArgs args)
+        {
+            myTank.KeyUp(args);
         }
     }
 }
