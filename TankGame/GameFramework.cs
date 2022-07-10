@@ -12,6 +12,7 @@ namespace TankGame
 
         public static void Start()
         {
+            GameObjectManager.Start();
             GameObjectManager.CreateMap();
             GameObjectManager.CreateMyTank();
         }

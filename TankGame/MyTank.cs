@@ -32,28 +32,31 @@ namespace TankGame
         private void MoveCheck()
         {
             #region 檢查有沒有超過視窗邊界
-            if(Dir == Direction.Up)
+            if (Dir == Direction.Up)
             {
-                if(Y-Speed < 0)
+                if (Y - Speed < 0)
                 {
                     IsMoving = false;
                     return;
                 }
-            }else if(Dir == Direction.Down)
+            }
+            else if (Dir == Direction.Down)
             {
                 if (Y + Speed + Height > 450)
                 {
                     IsMoving = false;
                     return;
                 }
-            }else if(Dir == Direction.Left)
+            }
+            else if (Dir == Direction.Left)
             {
                 if (X - Speed < 0)
                 {
                     IsMoving = false;
                     return;
                 }
-            }else if (Dir == Direction.Right)
+            }
+            else if (Dir == Direction.Right)
             {
                 if (X + Speed + Width > 450)
                 {
@@ -83,12 +86,12 @@ namespace TankGame
                     break;
             }
 
-            if(GameObjectManager.IsCollidedWall( rect ) != null)
+            if (GameObjectManager.IsCollidedWall(rect) != null)
             {
                 IsMoving = false;
-                return ;
+                return;
             }
-            if (GameObjectManager.IsCollidedSteel( rect ) != null)
+            if (GameObjectManager.IsCollidedSteel(rect) != null)
             {
                 IsMoving = false;
                 return;
@@ -120,7 +123,8 @@ namespace TankGame
                     break;
             }
         }
-
+        //GameMainThread KeyDown 執行緒衝突
+        //多執行緒資源衝突問題，可以使用鎖來解決
         public void KeyDown(KeyEventArgs args)
         {
             switch (args.KeyCode)
@@ -141,7 +145,36 @@ namespace TankGame
                     Dir = Direction.Right;
                     IsMoving = true;
                     break;
+                case Keys.Space:
+                    Attack();
+                    break;
             }
+        }
+
+        private void Attack()
+        {
+            //發射子彈
+            int x = this.X;
+            int y = this.Y;
+            switch (Dir)
+            {
+                case Direction.Up:
+                    x = x + Width / 2;
+                    break;
+                case Direction.Down:
+                    x = x + Width / 2;
+                    y += Height;
+                    break;
+                case Direction.Left:
+                    y = y + Height / 2;
+                    break;
+                case Direction.Right:
+                    x += Width;
+                    y = y + Height / 2;
+                    break;
+            }
+            GameObjectManager.CreateBullet(x, y, Tag.MyTank, Dir);
+            //Thread.Sleep(500);
         }
 
         public void KeyUp(KeyEventArgs args)

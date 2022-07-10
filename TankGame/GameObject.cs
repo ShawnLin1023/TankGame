@@ -15,7 +15,7 @@ namespace TankGame
         public int Height { get; set; }
         protected abstract Image GetImage();
 
-        public void DrawSelf()
+        public virtual void DrawSelf()
         {
             Graphics g = GameFramework.g;
             g.DrawImage(GetImage(), X, Y);
