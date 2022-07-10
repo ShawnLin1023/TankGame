@@ -17,6 +17,7 @@ namespace TankGame
 
         private static List<EnemyTank> tankList = new List<EnemyTank>();
         private static List<Bullet> bulletList = new List<Bullet>();
+        private static List<Explosion> expList = new List<Explosion>();
 
         private static int enemyBornSpeed = 60;
         private static int enemyBornCount = 60;
@@ -55,6 +56,11 @@ namespace TankGame
             {
                 bullet.Update();
             }*/
+            foreach(Explosion exp in expList)
+            {
+                exp.Update();
+            }
+            CheckAndDestroyExplosion();
             boss.Update();
             myTank.Update();
             EnemyBorn();
@@ -65,6 +71,12 @@ namespace TankGame
             Bullet bullet = new Bullet(x, y, 5, dir, tag);
             bulletList.Add(bullet);
             
+        }
+
+        public static void CreateExplosion(int x,int y)
+        {
+            Explosion exp = new Explosion(x, y);
+            expList.Add(exp);
         }
 
         private static void CheckAndDestroyBullet()
@@ -80,6 +92,22 @@ namespace TankGame
             foreach(Bullet bullet in needToDestroy)
             {
                 bulletList.Remove(bullet);
+            }
+        }
+
+        private static void CheckAndDestroyExplosion()
+        {
+            List<Explosion> needToDestroy = new List<Explosion>();
+            foreach (Explosion exp in expList)
+            {
+                if (exp.IsNeedDestroy == true)
+                {
+                    needToDestroy.Add(exp);
+                }
+            }
+            foreach (Explosion exp in needToDestroy)
+            {
+                expList.Remove(exp);
             }
         }
 
@@ -100,6 +128,7 @@ namespace TankGame
             {
                 return;
             }
+            SoundManager.PlayAdd();
             Random rd = new Random();
             int index = rd.Next(0, 3);
             Point position = points[index];
@@ -124,7 +153,7 @@ namespace TankGame
 
         private static void CreateEnemyTank1(int x, int y)
         {
-            EnemyTank tank = new EnemyTank(x, y, 2, Resources.GrayUp, Resources.GrayDown, Resources.GrayLeft, Resources.GrayRight);
+            EnemyTank tank = new EnemyTank(x, y, 3, Resources.GrayUp, Resources.GrayDown, Resources.GrayLeft, Resources.GrayRight);
             tankList.Add(tank);
         }
 
@@ -136,13 +165,13 @@ namespace TankGame
 
         private static void CreateEnemyTank3(int x, int y)
         {
-            EnemyTank tank = new EnemyTank(x, y, 2, Resources.QuickUp, Resources.QuickDown, Resources.QuickLeft, Resources.QuickRight);
+            EnemyTank tank = new EnemyTank(x, y, 4, Resources.QuickUp, Resources.QuickDown, Resources.QuickLeft, Resources.QuickRight);
             tankList.Add(tank);
         }
 
         private static void CreateEnemyTank4(int x, int y)
         {
-            EnemyTank tank = new EnemyTank(x, y, 2, Resources.SlowUp, Resources.SlowDown, Resources.SlowLeft, Resources.SlowRight);
+            EnemyTank tank = new EnemyTank(x, y, 1, Resources.SlowUp, Resources.SlowDown, Resources.SlowLeft, Resources.SlowRight);
             tankList.Add(tank);
         }
 
@@ -173,6 +202,18 @@ namespace TankGame
         public static bool IsCollidedBoss(Rectangle rt)
         {
             return boss.GetRectangle().IntersectsWith(rt);
+        }
+
+        public static MyTank IsCollidedMyTank(Rectangle rt)
+        {
+            if (myTank.GetRectangle().IntersectsWith(rt))
+            {
+                return myTank;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static EnemyTank IsCollidedEnemyTank(Rectangle rt)

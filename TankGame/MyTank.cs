@@ -10,6 +10,9 @@ namespace TankGame
     internal class MyTank:Movething
     {
         public bool IsMoving { get; set; }
+        public int HP { get; set; }
+        private int originalX;
+        private int originalY;
         public MyTank(int x, int y, int speed)
         {
             this.X = x;
@@ -20,6 +23,9 @@ namespace TankGame
             BitmapLeft = Resources.MyTankLeft;
             BitmapRight = Resources.MyTankRight;
             this.Dir = Direction.Up;
+            HP = 4;
+            originalX = x;
+            originalY = y;
         }
 
         public override void Update()
@@ -154,6 +160,7 @@ namespace TankGame
         private void Attack()
         {
             //發射子彈
+            SoundManager.PlayFire();
             int x = this.X;
             int y = this.Y;
             switch (Dir)
@@ -193,6 +200,17 @@ namespace TankGame
                 case Keys.D:
                     IsMoving = false;
                     break;
+            }
+        }
+
+        public void TakeDamage()
+        {
+            HP--;
+            if(HP <= 0)
+            {
+                X = originalX;
+                Y = originalY;
+                HP = 4;
             }
         }
     }

@@ -8,6 +8,10 @@ namespace TankGame
 {
     internal class EnemyTank:Movething
     {
+        public int ChangeDirSpeed { get; set; }
+        private int ChangeDirCount = 0;
+        public int AttackSpeed { get; set;}
+        private int attackCount = 0;
         private Random r = new Random();
         public EnemyTank(int x, int y, int speed, Bitmap bmpUp,Bitmap bmpDown, Bitmap bmpLeft, Bitmap bmpRight)
         {
@@ -19,12 +23,16 @@ namespace TankGame
             BitmapLeft = bmpLeft;
             BitmapRight = bmpRight;
             this.Dir = Direction.Down;
+            AttackSpeed = 60;
+            ChangeDirSpeed = 70;
         }
 
         public override void Update()
         {
             MoveCheck();
             Move();
+            AttackCheck();
+            AutoChangeDirection();
             base.Update();
         }
 
@@ -102,6 +110,17 @@ namespace TankGame
             }
         }
 
+        private void AutoChangeDirection()
+        {
+            ChangeDirCount++;
+            if(ChangeDirCount < ChangeDirSpeed)
+            {
+                return;
+            }
+            ChangeDirection();
+            ChangeDirCount = 0;
+        }
+
         private void ChangeDirection()
         {
             while (true)
@@ -138,6 +157,43 @@ namespace TankGame
                     X += Speed;
                     break;
             }
+        }
+
+        private void AttackCheck()
+        {
+            attackCount++;
+            if(attackCount < AttackSpeed)
+            {
+                return;
+            }
+            Attack();
+            attackCount = 0;
+        }
+
+        private void Attack()
+        {
+            //發射子彈
+            int x = this.X;
+            int y = this.Y;
+            switch (Dir)
+            {
+                case Direction.Up:
+                    x = x + Width / 2;
+                    break;
+                case Direction.Down:
+                    x = x + Width / 2;
+                    y += Height;
+                    break;
+                case Direction.Left:
+                    y = y + Height / 2;
+                    break;
+                case Direction.Right:
+                    x += Width;
+                    y = y + Height / 2;
+                    break;
+            }
+            GameObjectManager.CreateBullet(x, y, Tag.EnemyTank, Dir);
+            //Thread.Sleep(500);
         }
     }
 }

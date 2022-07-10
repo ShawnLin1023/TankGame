@@ -92,21 +92,29 @@ namespace TankGame
             rect.Width = 3;
             rect.Height = 3;
 
+            int xExplosion = this.X + Width / 2;
+            int yExplosion = this.Y + Height / 2;
+
             NotMovething wall = null;
             if ( (wall=GameObjectManager.IsCollidedWall(rect)) != null)
             {
                 IsDestroy = true;
                 GameObjectManager.DestroyWall(wall);
+                GameObjectManager.CreateExplosion(xExplosion, yExplosion);
+                SoundManager.PlayBlast();
                 return;
             }
             if (GameObjectManager.IsCollidedSteel(rect) != null)
             {
+                GameObjectManager.CreateExplosion(xExplosion, yExplosion);
                 IsDestroy = true;
                 return;
             }
             if (GameObjectManager.IsCollidedBoss(rect))
             {
+                GameFramework.ChangeToGameOver();
                 IsDestroy = true;
+                SoundManager.PlayBlast();
                 return;
             }
             if (tag == Tag.MyTank)
@@ -116,6 +124,20 @@ namespace TankGame
                 {
                     IsDestroy = true;
                     GameObjectManager.DestroyTank(tank);
+                    GameObjectManager.CreateExplosion(xExplosion, yExplosion);
+                    SoundManager.PlayHit();
+                    return;
+                }
+            }else if (tag == Tag.EnemyTank)
+            {
+                MyTank myTank = null;
+                if( (myTank = GameObjectManager.IsCollidedMyTank(rect)) != null)
+                {
+                    IsDestroy = true;
+                    GameObjectManager.CreateExplosion(xExplosion, yExplosion);
+                    myTank.TakeDamage();
+                    SoundManager.PlayBlast();
+                    return;
                 }
             }
         }
