@@ -1,6 +1,6 @@
 ﻿namespace TankGame
 {
-    partial class Form1
+    partial class TankGame
     {
         /// <summary>
         ///  Required designer variable.

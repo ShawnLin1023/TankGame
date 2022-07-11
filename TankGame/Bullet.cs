@@ -20,8 +20,6 @@ namespace TankGame
         public Bullet(int x, int y, int speed, Direction dir, Tag tag)
         {
             IsDestroy = false;
-            this.X = x;
-            this.Y = y;
             this.Speed = speed;
             BitmapUp = Resources.BulletUp;
             BitmapDown = Resources.BulletDown;
@@ -29,14 +27,8 @@ namespace TankGame
             BitmapRight = Resources.BulletRight;
             this.Dir = dir;
             this.tag = tag;
-
-            this.X -= Width / 2;
-            this.Y -= Height / 2;
-        }
-        public override void DrawSelf()
-        {
-
-            base.DrawSelf();
+            this.X = x - Width / 2;
+            this.Y = y - Height / 2;
         }
 
         public override void Update()

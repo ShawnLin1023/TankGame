@@ -2,18 +2,16 @@ using TankGame.Properties;
 
 namespace TankGame
 {
-    public partial class Form1 : Form
+    public partial class TankGame : Form
     {
         private Thread t;
         private static Graphics windowG;
         private static Bitmap tempBmp;
-        public Form1()
+        public TankGame()
         {
             InitializeComponent();
 
             this.StartPosition = FormStartPosition.CenterScreen;
-            /*this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(500, 250);*/
 
             windowG = this.CreateGraphics();
             tempBmp = new Bitmap(450, 450);

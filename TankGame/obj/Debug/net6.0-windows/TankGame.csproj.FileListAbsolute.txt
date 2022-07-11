@@ -4,7 +4,6 @@ C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\bin\Debug\net6.0-windows\TankGame.dll
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\bin\Debug\net6.0-windows\TankGame.pdb
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.csproj.AssemblyReference.cache
-C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.Form1.resources
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.csproj.GenerateResource.cache
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.AssemblyInfoInputs.cache
@@ -16,3 +15,4 @@ C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.genruntimeconfig.cache
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\ref\TankGame.dll
 C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.Properties.Resources.resources
+C:\Users\Administrator\Desktop\程式學習\C#\CSharp練習(B站課程1~7季)\C#B站教學第三季坦克大戰\TankGame\TankGame\obj\Debug\net6.0-windows\TankGame.TankGame.resources

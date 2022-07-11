@@ -65,194 +65,26 @@ namespace TankGame
             myTank.Update();
             EnemyBorn();
         }
-
-        public static void CreateBullet(int x, int y, Tag tag, Direction dir)
-        {
-            Bullet bullet = new Bullet(x, y, 5, dir, tag);
-            bulletList.Add(bullet);
-            
-        }
-
-        public static void CreateExplosion(int x,int y)
-        {
-            Explosion exp = new Explosion(x, y);
-            expList.Add(exp);
-        }
-
-        private static void CheckAndDestroyBullet()
-        {
-            List<Bullet> needToDestroy = new List<Bullet>();
-            foreach(Bullet bullet in bulletList)
-            {
-                if(bullet.IsDestroy == true)
-                {
-                    needToDestroy.Add(bullet);
-                }
-            }
-            foreach(Bullet bullet in needToDestroy)
-            {
-                bulletList.Remove(bullet);
-            }
-        }
-
-        private static void CheckAndDestroyExplosion()
-        {
-            List<Explosion> needToDestroy = new List<Explosion>();
-            foreach (Explosion exp in expList)
-            {
-                if (exp.IsNeedDestroy == true)
-                {
-                    needToDestroy.Add(exp);
-                }
-            }
-            foreach (Explosion exp in needToDestroy)
-            {
-                expList.Remove(exp);
-            }
-        }
-
-        public static void DestroyWall(NotMovething wall)
-        {
-            wallList.Remove(wall);
-        }
-
-        public static void DestroyTank(EnemyTank tank)
-        {
-            tankList.Remove(tank);
-        }
-
-        private static void EnemyBorn()
-        {
-            enemyBornCount++;
-            if(enemyBornCount < enemyBornSpeed)
-            {
-                return;
-            }
-            SoundManager.PlayAdd();
-            Random rd = new Random();
-            int index = rd.Next(0, 3);
-            Point position = points[index];
-            int enemyType = rd.Next(1, 5);
-            switch (enemyType)
-            {
-                case 1:
-                    CreateEnemyTank1(position.X, position.Y);
-                    break;
-                case 2:
-                    CreateEnemyTank2(position.X, position.Y);
-                    break;
-                case 3:
-                    CreateEnemyTank3(position.X, position.Y);
-                    break;
-                case 4:
-                    CreateEnemyTank4(position.X, position.Y);
-                    break;
-            }
-            enemyBornCount = 0;
-        }
-
-        private static void CreateEnemyTank1(int x, int y)
-        {
-            EnemyTank tank = new EnemyTank(x, y, 3, Resources.GrayUp, Resources.GrayDown, Resources.GrayLeft, Resources.GrayRight);
-            tankList.Add(tank);
-        }
-
-        private static void CreateEnemyTank2(int x, int y)
-        {
-            EnemyTank tank = new EnemyTank(x, y, 2, Resources.GreenUp, Resources.GreenDown, Resources.GreenLeft, Resources.GreenRight);
-            tankList.Add(tank);
-        }
-
-        private static void CreateEnemyTank3(int x, int y)
-        {
-            EnemyTank tank = new EnemyTank(x, y, 4, Resources.QuickUp, Resources.QuickDown, Resources.QuickLeft, Resources.QuickRight);
-            tankList.Add(tank);
-        }
-
-        private static void CreateEnemyTank4(int x, int y)
-        {
-            EnemyTank tank = new EnemyTank(x, y, 1, Resources.SlowUp, Resources.SlowDown, Resources.SlowLeft, Resources.SlowRight);
-            tankList.Add(tank);
-        }
-
-        public static NotMovething IsCollidedWall(Rectangle rt)
-        {
-            foreach(NotMovething wall in wallList)
-            {
-                if (wall.GetRectangle().IntersectsWith(rt))
-                {
-                    return wall;
-                }
-            }
-            return null;
-        }
-
-        public static NotMovething IsCollidedSteel(Rectangle rt)
-        {
-            foreach (NotMovething steelWall in steelList)
-            {
-                if (steelWall.GetRectangle().IntersectsWith(rt))
-                {
-                    return steelWall;
-                }
-            }
-            return null;
-        }
-
-        public static bool IsCollidedBoss(Rectangle rt)
-        {
-            return boss.GetRectangle().IntersectsWith(rt);
-        }
-
-        public static MyTank IsCollidedMyTank(Rectangle rt)
-        {
-            if (myTank.GetRectangle().IntersectsWith(rt))
-            {
-                return myTank;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static EnemyTank IsCollidedEnemyTank(Rectangle rt)
-        {
-            foreach(EnemyTank tank in tankList)
-            {
-                if (tank.GetRectangle().IntersectsWith(rt))
-                {
-                    return tank;
-                }
-            }
-            return null;
-        }
-
-        /*public static void DrawMap()
-        {
-            foreach(NotMovething wall in wallList)
-            {
-                wall.DrawSelf();
-            }
-            foreach (NotMovething wall in steelList)
-            {
-                wall.DrawSelf();
-            }
-            boss.DrawSelf();
-        }
-
-        public static void DrawMyTank()
-        {
-            myTank.DrawSelf();
-        }*/
-
-        public static void CreateMyTank()
-        {
-            int x = 5 * 30;
-            int y = 14 * 30;
-            myTank = new MyTank(x, y, 2);
-        }
         
+        #region 生成牆、Boss、地圖
+        private static void CreateWall(int x, int y, int count, Image img, List<NotMovething> wallList)
+        {
+            int xPosition = x * 30;
+            int yPosition = y * 30;
+            for (int i = yPosition; i < yPosition + count * 30; i += 15)
+            {
+                NotMovething wall1 = new NotMovething(xPosition, i, img);
+                NotMovething wall2 = new NotMovething(xPosition + 15, i, img);
+                wallList.Add(wall1);
+                wallList.Add(wall2);
+            }
+        }
+        private static void CreateBoss(int x, int y, Image img)
+        {
+            int xPosition = x * 30;
+            int yPosition = y * 30;
+            boss = new NotMovething(xPosition, yPosition, img);
+        }
         public static void CreateMap()
         {
             CreateWall(1, 1, 5, Resources.wall, wallList);
@@ -294,27 +126,67 @@ namespace TankGame
 
             CreateBoss(7, 14, Resources.Boss);
         }
+        #endregion
 
-        private static void CreateBoss(int x, int y, Image img)
+        #region 建立坦克(我方、敵方)
+        public static void CreateMyTank()
         {
-            int xPosition = x * 30;
-            int yPosition = y * 30;
-            boss = new NotMovething(xPosition, yPosition, img);
+            int x = 5 * 30;
+            int y = 14 * 30;
+            myTank = new MyTank(x, y, 2);
         }
-
-        private static void CreateWall(int x, int y, int count, Image img, List<NotMovething> wallList)
+        private static void CreateEnemyTank1(int x, int y)
         {
-            int xPosition = x * 30;
-            int yPosition = y * 30;
-            for (int i = yPosition; i < yPosition + count * 30; i += 15)
+            EnemyTank tank = new EnemyTank(x, y, 3, Resources.GrayUp, Resources.GrayDown, Resources.GrayLeft, Resources.GrayRight);
+            tankList.Add(tank);
+        }
+        private static void CreateEnemyTank2(int x, int y)
+        {
+            EnemyTank tank = new EnemyTank(x, y, 2, Resources.GreenUp, Resources.GreenDown, Resources.GreenLeft, Resources.GreenRight);
+            tankList.Add(tank);
+        }
+        private static void CreateEnemyTank3(int x, int y)
+        {
+            EnemyTank tank = new EnemyTank(x, y, 4, Resources.QuickUp, Resources.QuickDown, Resources.QuickLeft, Resources.QuickRight);
+            tankList.Add(tank);
+        }
+        private static void CreateEnemyTank4(int x, int y)
+        {
+            EnemyTank tank = new EnemyTank(x, y, 1, Resources.SlowUp, Resources.SlowDown, Resources.SlowLeft, Resources.SlowRight);
+            tankList.Add(tank);
+        }
+        private static void EnemyBorn()
+        {
+            enemyBornCount++;
+            if (enemyBornCount < enemyBornSpeed)
             {
-                NotMovething wall1 = new NotMovething(xPosition, i, img);
-                NotMovething wall2 = new NotMovething(xPosition + 15, i, img);
-                wallList.Add(wall1);
-                wallList.Add(wall2);
+                return;
             }
+            SoundManager.PlayAdd();
+            Random rd = new Random();
+            int index = rd.Next(0, 3);
+            Point position = points[index];
+            int enemyType = rd.Next(1, 5);
+            switch (enemyType)
+            {
+                case 1:
+                    CreateEnemyTank1(position.X, position.Y);
+                    break;
+                case 2:
+                    CreateEnemyTank2(position.X, position.Y);
+                    break;
+                case 3:
+                    CreateEnemyTank3(position.X, position.Y);
+                    break;
+                case 4:
+                    CreateEnemyTank4(position.X, position.Y);
+                    break;
+            }
+            enemyBornCount = 0;
         }
+        #endregion
 
+        #region 傳遞按鍵控制參數
         public static void KeyDown(KeyEventArgs args)
         {
             myTank.KeyDown(args);
@@ -324,5 +196,129 @@ namespace TankGame
         {
             myTank.KeyUp(args);
         }
+        #endregion
+
+        #region 建立子彈與特效
+        public static void CreateBullet(int x, int y, Tag tag, Direction dir)
+        {
+            Bullet bullet = new Bullet(x, y, 5, dir, tag);
+            bulletList.Add(bullet);
+        }
+        public static void CreateExplosion(int x,int y)
+        {
+            Explosion exp = new Explosion(x, y);
+            expList.Add(exp);
+        }
+        #endregion
+
+        #region 判斷是否碰撞到物件
+        public static NotMovething IsCollidedWall(Rectangle rt)
+        {
+            foreach(NotMovething wall in wallList)
+            {
+                if (wall.GetRectangle().IntersectsWith(rt))
+                {
+                    return wall;
+                }
+            }
+            return null;
+        }
+        public static NotMovething IsCollidedSteel(Rectangle rt)
+        {
+            foreach (NotMovething steelWall in steelList)
+            {
+                if (steelWall.GetRectangle().IntersectsWith(rt))
+                {
+                    return steelWall;
+                }
+            }
+            return null;
+        }
+        public static bool IsCollidedBoss(Rectangle rt)
+        {
+            return boss.GetRectangle().IntersectsWith(rt);
+        }
+        public static MyTank IsCollidedMyTank(Rectangle rt)
+        {
+            if (myTank.GetRectangle().IntersectsWith(rt))
+            {
+                return myTank;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static EnemyTank IsCollidedEnemyTank(Rectangle rt)
+        {
+            foreach(EnemyTank tank in tankList)
+            {
+                if (tank.GetRectangle().IntersectsWith(rt))
+                {
+                    return tank;
+                }
+            }
+            return null;
+        }
+        #endregion
+
+        #region 破壞牆、坦克、子彈、特效
+        public static void DestroyWall(NotMovething wall)
+        {
+            wallList.Remove(wall);
+        }
+        public static void DestroyTank(EnemyTank tank)
+        {
+            tankList.Remove(tank);
+        }
+        private static void CheckAndDestroyBullet()
+        {
+            List<Bullet> needToDestroy = new List<Bullet>();
+            foreach (Bullet bullet in bulletList)
+            {
+                if (bullet.IsDestroy == true)
+                {
+                    needToDestroy.Add(bullet);
+                }
+            }
+            foreach (Bullet bullet in needToDestroy)
+            {
+                bulletList.Remove(bullet);
+            }
+        }
+        private static void CheckAndDestroyExplosion()
+        {
+            List<Explosion> needToDestroy = new List<Explosion>();
+            foreach (Explosion exp in expList)
+            {
+                if (exp.IsNeedDestroy == true)
+                {
+                    needToDestroy.Add(exp);
+                }
+            }
+            foreach (Explosion exp in needToDestroy)
+            {
+                expList.Remove(exp);
+            }
+        }
+        #endregion
+
+        /*public static void DrawMap()
+        {
+            foreach(NotMovething wall in wallList)
+            {
+                wall.DrawSelf();
+            }
+            foreach (NotMovething wall in steelList)
+            {
+                wall.DrawSelf();
+            }
+            boss.DrawSelf();
+        }
+
+        public static void DrawMyTank()
+        {
+            myTank.DrawSelf();
+        }*/
     }
 }

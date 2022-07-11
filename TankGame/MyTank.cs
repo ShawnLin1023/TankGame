@@ -157,6 +157,25 @@ namespace TankGame
             }
         }
 
+        public void KeyUp(KeyEventArgs args)
+        {
+            switch (args.KeyCode)
+            {
+                case Keys.W:
+                    IsMoving = false;
+                    break;
+                case Keys.S:
+                    IsMoving = false;
+                    break;
+                case Keys.A:
+                    IsMoving = false;
+                    break;
+                case Keys.D:
+                    IsMoving = false;
+                    break;
+            }
+        }
+
         private void Attack()
         {
             //發射子彈
@@ -182,25 +201,6 @@ namespace TankGame
             }
             GameObjectManager.CreateBullet(x, y, Tag.MyTank, Dir);
             //Thread.Sleep(500);
-        }
-
-        public void KeyUp(KeyEventArgs args)
-        {
-            switch (args.KeyCode)
-            {
-                case Keys.W:
-                    IsMoving = false;
-                    break;
-                case Keys.S:
-                    IsMoving = false;
-                    break;
-                case Keys.A:
-                    IsMoving = false;
-                    break;
-                case Keys.D:
-                    IsMoving = false;
-                    break;
-            }
         }
 
         public void TakeDamage()
